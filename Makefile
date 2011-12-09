@@ -35,8 +35,7 @@ endif
 
 all: xpi
 
-xpi:
-	pull
+xpi: pull
 	$(addon_sdk)/cfx xpi $(cfx_args)
 
 pull:
