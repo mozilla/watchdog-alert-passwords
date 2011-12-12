@@ -19,11 +19,14 @@ function add_script(url) {
 
 self.port.on('data-url', function(url) {
   baseurl = url;
+  return;
   console.log('base url '+baseurl);
   add_css("css/bootstrap.min.css");
   add_css("css/about_passwords.css");
   add_script("js/jquery-1.6.2.min.js");
   add_script("js/jquery.tmpl.min.js");
+  add_script("js/bootstrap-twipsy.js");
+  add_script("js/bootstrap-popover.js");
   add_script("js/about_passwords.js");
 });
 
