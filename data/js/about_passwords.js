@@ -4,14 +4,25 @@ function setLoginInfo(loginInfo) {
   var scores = loginInfo.scores;
   var scoreEl = $("#overall-score");
   scoreEl.text(scores.overall);
-  if (scores.overall > 90) { 
+  if (scores.overall > 80) { 
     scoreEl.addClass("strong"); 
   } else if (scores.overall > 50) { 
     scoreEl.addClass("medium") 
   } else { 
     scoreEl.addClass("weak"); 
   }
-  $("#avg-strength").text(scores.avg_strength);
+  if (scores.avg_strength > 80) {
+    $("#avg-strength").text("high ("+scores.avg_strength+")");
+    $("#avg-strength").addClass("strong");
+  }
+  else if (scores.avg_strength > 50) {
+    $("#avg-strength").text("medium ("+scores.avg_strength+")");
+    $("#avg-strength").addClass("medium");
+  }
+  else {
+    $("#avg-strength").text("low ("+scores.avg_strength+")");
+    $("#avg-strength").addClass("weak");
+  }
   $("#num-duplicates").text(scores.duplicates);
   $("#num-similar").text(scores.similarity);
   $("#num-unsecure").text(scores.unsecure);

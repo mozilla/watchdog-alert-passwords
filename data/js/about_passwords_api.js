@@ -19,7 +19,7 @@ function add_script(url) {
 
 self.port.on('data-url', function(url) {
   baseurl = url;
-  //return; 
+  return; 
   console.log('base url '+baseurl);
   add_css("css/bootstrap.min.css");
   add_css("css/about_passwords.css");
