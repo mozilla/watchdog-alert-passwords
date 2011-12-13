@@ -100,6 +100,13 @@ function setLoginInfo(loginInfo) {
       return "The password on this site is pretty strong, but that doesn't mean you're safe.  You should consider changing the password every few months.";
     }
   });
+
+  $('span[type="host"]').hover(function() {
+    var host = $(this).attr('data');
+    var l = loginInfo.logins[host];
+    about.console.log(JSON.stringify(l));
+    return JSON.stringify(l);
+  });
 }
 
 $(document).ready(function() {
