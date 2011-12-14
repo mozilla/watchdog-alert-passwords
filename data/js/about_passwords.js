@@ -29,9 +29,16 @@ function setLoginInfo(loginInfo) {
   $("#num-old").text(scores.over_ninty);
   $("#total-logins").text(scores.logins);
 
-
+  // we want to sort our logins by severity
+  var logins = [];
+  for (var h in loginInfo.logins) {
+    logins.push(loginInfo.logins[h]);
+  }
+  logins.sort(function(a, b) {
+    return a.score - b.score;
+  });
   $("#logins-list").empty();
-  $("#logins-tmpl").tmpl({logins: loginInfo.logins}).appendTo("#logins-list");
+  $("#logins-tmpl").tmpl({logins: logins}).appendTo("#logins-list");
   
   // hookup our popovers
   $('span[type="shared"]').popover({
@@ -102,8 +109,8 @@ function setLoginInfo(loginInfo) {
   });
 
   $('span[type="host"]').hover(function() {
-    var host = $(this).attr('data');
-    var l = loginInfo.logins[host];
+    var i = $(this).attr('data');
+    var l = logins[i];
     about.console.log(JSON.stringify(l));
     return JSON.stringify(l);
   });
