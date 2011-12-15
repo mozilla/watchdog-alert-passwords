@@ -17,8 +17,17 @@ function add_script(url) {
   head.appendChild(fileref);
 }
 
+function add_favicon() {
+  var head = document.getElementsByTagName("head")[0];
+  var fileref = document.createElement("link");
+  fileref.setAttribute("rel", "shortcut icon");
+  fileref.setAttribute("href", baseurl+"css/security-medium.png");
+  head.appendChild(fileref);
+}
+
 self.port.on('data-url', function(url) {
   baseurl = url;
+  if (unsafeWindow.location.href.split('?')[0] !== 'about:passwords') return;
   console.log('base url '+baseurl);
   add_css("css/bootstrap.min.css");
   add_css("css/about_passwords.css");
@@ -27,6 +36,7 @@ self.port.on('data-url', function(url) {
   add_script("js/bootstrap-twipsy.js");
   add_script("js/bootstrap-popover.js");
   add_script("js/about_passwords.js");
+  add_favicon();
 });
 
 self.port.on('password-info', function(loginInfo) {

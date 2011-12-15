@@ -1,0 +1,13 @@
+
+#notification-popup-box[anchorid="watchdog-password-icon"] > #watchdog-password-icon {
+  display: -moz-box;
+}
+
+.popup-notification-icon[popupid="watchdog-password-notification"]
+{
+  list-style-image: url("./security-low-2.png");
+}
+
+#watchdog-password-icon {
+  list-style-image: url("./security-low-2.png");
+}
