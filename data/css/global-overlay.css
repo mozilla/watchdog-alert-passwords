@@ -11,3 +11,12 @@
 #watchdog-password-icon {
   list-style-image: url("./security-low-2.png");
 }
+
+
+#notification-popup-box[anchorid="watchdog-password-generate-icon"] > #watchdog-password-generate-icon {
+  display: -moz-box;
+}
+
+#watchdog-password-generate-icon {
+  list-style-image: url("./security-medium.png");
+}
