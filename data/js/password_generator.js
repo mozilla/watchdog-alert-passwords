@@ -25,12 +25,6 @@ $(document).ready(function() {
         var passwordStr = $('#generatedPassword').html();
         
         self.postMessage({
-            type: 'savePassword',
-            password: passwordStr,
-            metadata: passwordMetadata
-        });
-        
-        self.postMessage({
             'type': 'typePassword',
             'password': passwordStr
         });
