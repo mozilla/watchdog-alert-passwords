@@ -26,7 +26,8 @@ $(document).ready(function() {
         
         self.postMessage({
             'type': 'typePassword',
-            'password': passwordStr
+            'password': passwordStr,
+            'data': passwordMetadata
         });
     });
     
