@@ -17,23 +17,42 @@ $(document).ready(function() {
     }
     
     function updatePassword() {
-        $('#generatedPassword').html(generateNewPassword());
+        $('#generatedPassword').val(generateNewPassword());
+        self.port.emit("checkPasswordStrength", {password: $('#generatedPassword').val()});
+        $('#generatedPassword').select();
+        $('#generatedPassword').focus();
     }
     
     $('#generateButton').click(updatePassword);
     $('#usePasswordButton').click(function() {
-        var passwordStr = $('#generatedPassword').html();
+        var passwordStr = $('#generatedPassword').val();
         
-        self.postMessage({
-            'type': 'typePassword',
+        self.port.emit('typePassword', {
             'password': passwordStr,
             'data': passwordMetadata
         });
+    });
+    $('#generatedPassword').change(function() {
+        setTimeout(function() {
+            self.port.emit("checkPasswordStrength", {password: $('#generatedPassword').val()});
+        },1);
+    });
+    $('#generatedPassword').keypress(function() {
+        setTimeout(function() {
+            self.port.emit("checkPasswordStrength", {password: $('#generatedPassword').val()});
+        },1);
     });
     
     updatePassword();
     
     self.port.on('passwordMetadata', function(msg) {
         passwordMetadata = msg;
+        // this is called onShow, so lets set our selection and focus
+        console.log("lets select and focus!");
+        $('#generatedPassword').select();
+        $('#generatedPassword').focus();
+    });
+    self.port.on('passwordStrength', function(msg) {
+        $('#strength').text(msg.strength);
     });
 });
