@@ -117,10 +117,34 @@ function setLoginInfo(loginInfo) {
   });
   
   $('div.entry').click(function() {
-    var entry = $(this).attr('data');
+    $('div.entry').removeClass('selected');
+    $(this).addClass('selected');
+    var entry = loginInfo.logins[$(this).attr('data')];
+    var data = {
+      entry: entry,
+      accounts: []
+      };
+    // get any other accounts for the same domain
+    for (var h in loginInfo.logins) {
+      var d = loginInfo.logins[h];
+      if (d.host == entry.host) {
+        data.accounts.push(d);
+        if (d.username == entry.username) {
+          d.active = true;
+        }
+      }
+    }
+    about.console.log("entry: "+JSON.stringify(data));
+    
     $("#login-detail").empty();
-    $("#login-entry-tmpl").tmpl({entry: loginInfo.logins[entry]}).appendTo("#login-detail");
-    $('.login-entry').stickyScroll({ container: $('#login-detail'), offsetTop: 50 });
+    $("#login-entry-tmpl").tmpl(data).appendTo("#login-detail");
+    $('.tabs').tabs();
+    $('#login-detail').modal({
+      backdrop: true,
+      keyboard: true,
+      show: true
+      });
+    //$('.login-entry').stickyScroll({ container: $('#login-detail'), offsetTop: 50 });
   });
 
 }
