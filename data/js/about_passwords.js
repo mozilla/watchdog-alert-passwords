@@ -63,7 +63,7 @@ function setLoginInfo(loginInfo) {
     content: function() {
       var dups = $(this).attr('data').split(',');
       var l = dups.pop()
-      var t = dups.join(', ') + ' and ' + l;
+      var t = dups.length > 0 ? dups.join(', ') + ' and ' + l : l;
       return "This site uses a password that is similar to the passwords used on <strong>"+t+"</strong>";
     }
   });
