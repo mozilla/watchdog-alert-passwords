@@ -32,6 +32,7 @@ function setLoginInfo(loginInfo) {
   // we want to sort our logins by severity
   var logins = [];
   for (var h in loginInfo.logins) {
+    loginInfo.logins[h].entry = h;
     logins.push(loginInfo.logins[h]);
   }
   logins.sort(function(a, b) {
@@ -114,6 +115,14 @@ function setLoginInfo(loginInfo) {
     about.console.log(JSON.stringify(l));
     return JSON.stringify(l);
   });
+  
+  $('div.entry').click(function() {
+    var entry = $(this).attr('data');
+    $("#login-detail").empty();
+    $("#login-entry-tmpl").tmpl({entry: loginInfo.logins[entry]}).appendTo("#login-detail");
+    $('.login-entry').stickyScroll({ container: $('#login-detail'), offsetTop: 50 });
+  });
+
 }
 
 $(document).ready(function() {
