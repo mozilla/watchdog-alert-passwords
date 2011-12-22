@@ -1,6 +1,53 @@
 
-function setLoginInfo(loginInfo) {
-  about.console.log("setLoginInfo");
+var loginInfo;
+
+function hashChange() {
+  if (!window.location.hash)
+    return;
+  var domain = window.location.hash.substr(1);
+  //about.console.log("hashchange to show "+domain);
+  showDomain(domain);
+}
+
+function showDomain(domain) {
+  var entry = loginInfo.logins[domain];
+  var data = {
+    entry: entry,
+    accounts: []
+    };
+  var host = entry ? entry.host : domain.split(':')[0];
+  // get any other accounts for the same domain
+  for (var h in loginInfo.logins) {
+    var d = loginInfo.logins[h];
+    if (d.host == host) {
+      data.accounts.push(d);
+      if (entry && d.username == entry.username) {
+        d.active = true;
+      } else {
+        d.active = false;
+      }
+    }
+  }
+  if (!data.entry) {
+    data.entry = data.accounts[0];
+    data.entry.active = true;
+  }
+  //about.console.log("entry: "+JSON.stringify(data));
+  
+  $("#login-detail").empty();
+  $("#login-entry-tmpl").tmpl(data).appendTo("#login-detail");
+  $('.tabs').tabs();
+  $('#login-detail').modal({
+    backdrop: true,
+    keyboard: true,
+    show: true
+    });
+  //$('.login-entry').stickyScroll({ container: $('#login-detail'), offsetTop: 50 });
+}
+  
+function setLoginInfo(newData) {
+  loginInfo = newData;
+  //about.console.log("setLoginInfo");
   var scores = loginInfo.scores;
   var scoreEl = $("#overall-score");
   scoreEl.text(scores.overall);
@@ -109,47 +156,27 @@ function setLoginInfo(loginInfo) {
     }
   });
 
-  $('span[type="host"]').hover(function() {
-    var i = $(this).attr('data');
-    var l = logins[i];
-    about.console.log(JSON.stringify(l));
-    return JSON.stringify(l);
-  });
+  //$('span[type="host"]').hover(function() {
+  //  var i = $(this).attr('data');
+  //  var l = logins[i];
+  //  about.console.log(JSON.stringify(l));
+  //  return JSON.stringify(l);
+  //});
   
   $('div.entry').click(function() {
-    $('div.entry').removeClass('selected');
-    $(this).addClass('selected');
-    var entry = loginInfo.logins[$(this).attr('data')];
-    var data = {
-      entry: entry,
-      accounts: []
-      };
-    // get any other accounts for the same domain
-    for (var h in loginInfo.logins) {
-      var d = loginInfo.logins[h];
-      if (d.host == entry.host) {
-        data.accounts.push(d);
-        if (d.username == entry.username) {
-          d.active = true;
-        }
-      }
-    }
-    about.console.log("entry: "+JSON.stringify(data));
-    
-    $("#login-detail").empty();
-    $("#login-entry-tmpl").tmpl(data).appendTo("#login-detail");
-    $('.tabs').tabs();
-    $('#login-detail').modal({
-      backdrop: true,
-      keyboard: true,
-      show: true
-      });
-    //$('.login-entry').stickyScroll({ container: $('#login-detail'), offsetTop: 50 });
+    var domain = $(this).attr('data');
+    //about.console.log("about to show "+domain);
+    //$('div.entry').removeClass('selected');
+    //$(this).addClass('selected');
+    window.location.hash = '#' + domain;
   });
-
+  
+  $(window).hashchange(hashChange);
+  // first time load
+  hashChange();
 }
 
 $(document).ready(function() {
   about.ready();
-  about.console.log("about is loaded");
+  //about.console.log("about is loaded");
 });

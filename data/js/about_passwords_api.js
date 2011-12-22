@@ -27,26 +27,29 @@ function add_favicon() {
 
 self.port.on('data-url', function(url) {
   baseurl = url;
-  if (unsafeWindow.location.href.split('?')[0] !== 'about:passwords') return;
-  console.log('base url '+baseurl);
+  if (unsafeWindow.location.href.split('#')[0] !== 'about:passwords') return;
+  //console.log('base url '+baseurl);
   add_css("css/bootstrap.min.css");
   add_css("css/about_passwords.css");
   add_script("js/jquery-1.6.2.min.js");
   add_script("js/jquery.tmpl.min.js");
+  add_script("js/jquery.ba-hashchange.min.js");
   add_script("js/bootstrap-twipsy.js");
   add_script("js/bootstrap-popover.js");
+  add_script("js/bootstrap-modal.js");
+  add_script("js/bootstrap-tabs.js");
   add_script("js/about_passwords.js");
   add_favicon();
 });
 
 self.port.on('password-info', function(loginInfo) {
-  console.log(JSON.stringify(loginInfo.scores));
+  //console.log(JSON.stringify(loginInfo.scores));
   unsafeWindow.setLoginInfo(loginInfo);
 });
 
 unsafeWindow.about = {
   ready: function() {
-    console.log("ready called");
+    //console.log("ready called");
     self.port.emit("ready");
   },
   console: console
