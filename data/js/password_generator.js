@@ -4,10 +4,13 @@ $(document).ready(function() {
     var passwordMetadata = null;
     
     function generateNewPassword() {
+        var punct = $('#punctuation').attr("checked") == "checked";
         // For now, 12 random characters
-        const choiceStr="1234567890ABCEDGHIJKLMNOPQRSTUVWXYZ";
+        var choiceStr="1234567890ABCEDGHIJKLMNOPQRSTUVWXYZ";
         var newPassword = "";
-        
+        if (punct) {
+            choiceStr += "!@#$%^&*()";
+        }
         for (var x = 0; x<12; x++) {
             var choiceStrIdx = parseInt(Math.random()*choiceStr.length);
             newPassword += Math.random() > 0.5 ? choiceStr[choiceStrIdx] : choiceStr[choiceStrIdx].toLowerCase();

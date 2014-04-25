@@ -20,6 +20,7 @@ function showDomain(domain) {
   for (var h in loginInfo.logins) {
     var d = loginInfo.logins[h];
     if (d.host == host) {
+      d.index = data.accounts.length;
       data.accounts.push(d);
       if (entry && d.username == entry.username) {
         d.active = true;
@@ -35,8 +36,8 @@ function showDomain(domain) {
   //about.console.log("entry: "+JSON.stringify(data));
   
   $("#login-detail").empty();
-  $("#login-entry-tmpl").tmpl(data).appendTo("#login-detail");
-  $('.tabs').tabs();
+  $("#login-detail").html($("#login-entry-tmpl").mustache(data));;
+  //$('.tabs').tabs();
   $('#login-detail').modal({
     backdrop: true,
     keyboard: true,
@@ -86,11 +87,12 @@ function setLoginInfo(newData) {
     return a.score - b.score;
   });
   $("#logins-list").empty();
-  $("#logins-tmpl").tmpl({logins: logins}).appendTo("#logins-list");
-  
+  $("#logins-list").html($("#logins-tmpl").mustache({logins: logins}));
+
   // hookup our popovers
   $('span[type="shared"]').popover({
-    placement: 'below',
+    placement: 'bottom',
+    trigger: 'hover',
     title: function() 'Shared Passwords',
     html: true,
     content: function() {
@@ -105,7 +107,8 @@ function setLoginInfo(newData) {
   });
 
   $('span[type="similar"]').popover({
-    placement: 'below',
+    placement: 'bottom',
+    trigger: 'hover',
     title: function() 'Similar Passwords',
     html: true,
     content: function() {
@@ -117,7 +120,8 @@ function setLoginInfo(newData) {
   });
 
   $('span[type="unsecure"]').popover({
-    placement: 'below',
+    placement: 'bottom',
+    trigger: 'hover',
     title: function() 'Unsecured Passwords',
     content: function() {
       return "The password for this site is used unencrypted.  Eavesdroppers can view your password when you login to the site.";
@@ -125,7 +129,8 @@ function setLoginInfo(newData) {
   });
 
   $('span[type="over_90"]').popover({
-    placement: 'below',
+    placement: 'bottom',
+    trigger: 'hover',
     title: function() 'Old Passwords',
     content: function() {
       return "You have not changed the password on this site in a very long time.";
@@ -133,7 +138,8 @@ function setLoginInfo(newData) {
   });
 
   $('span[type="weak_password"]').popover({
-    placement: 'below',
+    placement: 'bottom',
+    trigger: 'hover',
     title: function() 'Weak Passwords',
     content: function() {
       return "The password on this site is too simple, you should change the password to something more complex as soon as possible.";
@@ -141,7 +147,8 @@ function setLoginInfo(newData) {
   });
 
   $('span[type="medium_password"]').popover({
-    placement: 'below',
+    placement: 'bottom',
+    trigger: 'hover',
     title: function() 'Moderately Strong Passwords',
     content: function() {
       return "The password on this site may be too simple, you should consider changing it to a more complex password.";
@@ -149,7 +156,8 @@ function setLoginInfo(newData) {
   });
 
   $('span[type="strong_password"]').popover({
-    placement: 'below',
+    placement: 'bottom',
+    trigger: 'hover',
     title: function() 'Congratulations!',
     content: function() {
       return "The password on this site is pretty strong, but that doesn't mean you're safe.  You should consider changing the password every few months.";
@@ -165,13 +173,9 @@ function setLoginInfo(newData) {
   
   $('div.entry').click(function() {
     var domain = $(this).attr('data');
-    //about.console.log("about to show "+domain);
-    //$('div.entry').removeClass('selected');
-    //$(this).addClass('selected');
-    window.location.hash = '#' + domain;
+    showDomain(domain);
   });
   
-  $(window).hashchange(hashChange);
   // first time load
   hashChange();
 }

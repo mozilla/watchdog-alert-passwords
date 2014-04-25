@@ -31,13 +31,9 @@ self.port.on('data-url', function(url) {
   //console.log('base url '+baseurl);
   add_css("css/bootstrap.min.css");
   add_css("css/about_passwords.css");
-  add_script("js/jquery-1.6.2.min.js");
-  add_script("js/jquery.tmpl.min.js");
-  add_script("js/jquery.ba-hashchange.min.js");
-  add_script("js/bootstrap-twipsy.js");
-  add_script("js/bootstrap-popover.js");
-  add_script("js/bootstrap-modal.js");
-  add_script("js/bootstrap-tabs.js");
+  add_script("js/jquery-1.11.0.min.js");
+  add_script("js/jquery.mustache.js");
+  add_script("js/bootstrap.js");
   add_script("js/about_passwords.js");
   add_favicon();
 });
